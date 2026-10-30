@@ -1,3 +1,20 @@
+class Product {
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+  keywords
+  constructor(product) {
+    this.id = product.id;
+    this.image = product.image;
+    this.name = product.name;
+    this.rating = product.rating;
+    this.priceCents = product.priceCents;
+    this.keywords = product.keywords;
+  }
+}
+
 const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -657,4 +674,8 @@ const products = [
       "mens"
     ]
   }
-];
+].map((product)=>{
+  return new Product(product)
+});
+
+console.log(products);

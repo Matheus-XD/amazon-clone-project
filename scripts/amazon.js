@@ -1,0 +1,1 @@
+import "../data/products.js"
