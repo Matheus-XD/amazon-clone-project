@@ -64,20 +64,12 @@ document.querySelectorAll('.js-add-to-cart-button')
 .forEach((addToCartButtonElement)=>{
   addToCartButtonElement.addEventListener('click', ()=>{
     const productId = addToCartButtonElement.dataset.productId
-    let qtd = 0;
-    document.querySelectorAll('.js-quantity-container')
-    .forEach((quantityContainerElement)=>{
-      if (quantityContainerElement.dataset.productId === productId) {
-        qtd = quantityContainerElement.value
-      }
-    })
-
+    const qtd = document.querySelector(`.js-quantity-container[data-product-id="${productId}"]`).value  
     cart.addToCart(productId, qtd)
     console.log(cart);
-    
-    
     
   })
 })
 
 
+ 
