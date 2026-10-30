@@ -26,9 +26,12 @@ class Cart {
    this.saveToLocalStorage()
   }
 
-  showlocalstorageKey(){
-    console.log(this.localStorageKey);
-    
+  renderCartQuantity(){
+    let totalQuantity = 0
+    this.cartItems.forEach((item)=>{
+      totalQuantity += item.qtd;
+    })
+    return totalQuantity;
   }
 
   saveToLocalStorage(){
