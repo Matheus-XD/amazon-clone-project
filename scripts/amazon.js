@@ -64,12 +64,9 @@ document.querySelectorAll('.js-add-to-cart-button')
 .forEach((addToCartButtonElement)=>{
   addToCartButtonElement.addEventListener('click', ()=>{
     const productId = addToCartButtonElement.dataset.productId
-    const qtd = document.querySelector(`.js-quantity-container[data-product-id="${productId}"]`).value  
-    cart.addToCart(productId, qtd)
-    console.log(cart);
-    
+    const qtd = Number(document.querySelector(`.js-quantity-container[data-product-id="${productId}"]`).value ) 
+    cart.addToCart(productId, qtd) 
   })
 })
 
 
- 
