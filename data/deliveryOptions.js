@@ -16,3 +16,8 @@ export const deliveryOptions = [
   }
 
 ]
+
+export function renderDaysToDelivery(deliveryOptionId) {
+  const matchingItem = deliveryOptions.find(option=>option.id === deliveryOptionId)
+  return matchingItem.daysToDelivery
+}

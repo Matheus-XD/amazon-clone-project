@@ -1,7 +1,9 @@
 import { cart } from "../../data/cart.js";
 import { products } from "../../data/products.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { deliveryOptions, renderDaysToDelivery } from "../../data/deliveryOptions.js";
+import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"
 
+let today = dayjs()
 export function renderOrderSummary(params) {
   let orderSummaryHTML = '';
   cart.items.forEach((cartItem)=>{
@@ -11,7 +13,7 @@ export function renderOrderSummary(params) {
     orderSummaryHTML += `
     <div class="cart-item-container">
       <div class="delivery-date">
-        Delivery date: Tuesday, June 21
+        Delivery date: ${today.add(renderDaysToDelivery(cartItem.deliveryOptionId), 'days').format('dddd, MMMM D')}
       </div>
 
       <div class="cart-item-details-grid">
@@ -43,7 +45,7 @@ export function renderOrderSummary(params) {
             Choose a delivery option:
           </div>
           
-          ${renderDeliveryOption()}
+          ${renderDeliveryOption(cartItem)}
 
         </div>
       </div>
@@ -51,20 +53,34 @@ export function renderOrderSummary(params) {
     `
   })
 
-  function renderDeliveryOption() {
+  function renderDeliveryOption(cartItem) {
     let deliveryOptionsHTML = ''
     deliveryOptions.forEach((option)=>{
+      let price = 0;
+      if (option.priceCents > 0) {
+        price = `$${option.priceCents}`
+      } else {
+        price = 'FREE'
+      }
+
+      let isChecked = ''
+      if (cartItem.deliveryOptionId === option.id) {
+        isChecked = 'checked'
+      }
+
       deliveryOptionsHTML += `
-      <div class="delivery-option">
-        <input type="radio" checked
+      <div class="delivery-option js-delivery-option"   
+      data-cart-item-id = "${cartItem.id}"
+      data-delivery-option-id = "${option.id}">
+        <input type="radio" ${isChecked}
           class="delivery-option-input"
-          name="delivery-option-1">
+          name="${cartItem.id}">
         <div>
           <div class="delivery-option-date">
-            Tuesday, June 21
+            ${today.add(option.daysToDelivery, 'days').format('dddd, MMMM D')}
           </div>
           <div class="delivery-option-price">
-            FREE Shipping
+            ${price} - Shipping
           </div>
         </div>
       </div>
@@ -73,4 +89,15 @@ export function renderOrderSummary(params) {
     return deliveryOptionsHTML
   }
   document.querySelector('.js-order-summary').innerHTML = orderSummaryHTML
+
+  document.querySelectorAll('.js-delivery-option')
+  .forEach((deliveryOptionElement)=>{
+    deliveryOptionElement.addEventListener('click', ()=>{
+      const cartItemId = deliveryOptionElement.dataset.cartItemId
+      const deliveryOptionId = Number(deliveryOptionElement.dataset.deliveryOptionId)     
+      cart.updateDeliveryOption1(cartItemId, deliveryOptionId)
+
+      renderOrderSummary()
+    })
+  })
 }

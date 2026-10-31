@@ -19,7 +19,7 @@ class Cart {
       {
         id: id,
         qtd: qtd,
-        deliveryOption: 1
+        deliveryOptionId: 1
       }
     )  
    }
@@ -34,10 +34,25 @@ class Cart {
     return totalQuantity;
   }
 
+  updateDeliveryOption1(cartItemId, newDeliveryOptionId){
+    let matchingItem = this.items.find(matchingItem=>matchingItem.id === cartItemId)
+    if (matchingItem) {
+      matchingItem.deliveryOptionId = newDeliveryOptionId   
+    } else {
+      console.warn(`the item with id ${cartItemId} was not found in the cart`);
+    }
+    this.saveToLocalStorage()
+  }
+
+
+
   saveToLocalStorage(){
     localStorage.setItem(this.localStorageKey, JSON.stringify(this.items))
   }
+
+  
 }
+
 
 
 
