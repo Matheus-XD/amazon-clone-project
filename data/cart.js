@@ -1,21 +1,21 @@
 class Cart {
  
-  cartItems;
+  items;
   localStorageKey;
 
   constructor(localStorageKey){
     this.localStorageKey = localStorageKey
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey)) || []
+    this.items = JSON.parse(localStorage.getItem(this.localStorageKey)) || []
   }
   addToCart(id, qtd){
-   const matchingItem = this.cartItems.find((item)=>{
+   const matchingItem = this.items.find((item)=>{
     return item.id === id
     
    })
    if (matchingItem) {
     matchingItem.qtd += qtd
    } else {
-    this.cartItems.push(
+    this.items.push(
       {
         id: id,
         qtd: qtd,
@@ -28,14 +28,14 @@ class Cart {
 
   renderCartQuantity(){
     let totalQuantity = 0
-    this.cartItems.forEach((item)=>{
+    this.items.forEach((item)=>{
       totalQuantity += item.qtd;
     })
     return totalQuantity;
   }
 
   saveToLocalStorage(){
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems))
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.items))
   }
 }
 
