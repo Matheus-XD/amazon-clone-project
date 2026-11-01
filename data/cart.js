@@ -58,7 +58,6 @@ class Cart {
     this.saveToLocalStorage()
   }
 
-
   saveToLocalStorage(){
     localStorage.setItem(this.localStorageKey, JSON.stringify(this.items))
   }

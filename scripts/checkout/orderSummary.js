@@ -2,6 +2,7 @@ import { cart } from "../../data/cart.js";
 import { products } from "../../data/products.js";
 import { deliveryOptions, renderDaysToDelivery } from "../../data/deliveryOptions.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 let today = dayjs()
 export function renderOrderSummary(params) {
@@ -126,6 +127,7 @@ export function renderOrderSummary(params) {
       const newQtd = Number(document.querySelector('.js-quantity-container').value)
       cart.updateCartQuantity(cartItemId, newQtd)
       renderOrderSummary()
+      renderPaymentSummary()
       
     })
 
@@ -136,6 +138,7 @@ export function renderOrderSummary(params) {
 
 
   document.querySelector('.js-order-summary').innerHTML = orderSummaryHTML
+  document.querySelector('.js-return-to-home-link').innerText = cart.renderCartQuantity() === 1 ? `${cart.renderCartQuantity()} item`:`${cart.renderCartQuantity()} items`
 
   document.querySelectorAll('.js-delivery-option')
   .forEach((deliveryOptionElement)=>{
@@ -144,6 +147,7 @@ export function renderOrderSummary(params) {
       const deliveryOptionId = Number(deliveryOptionElement.dataset.deliveryOptionId)     
       cart.updateDeliveryOption1(cartItemId, deliveryOptionId)
       renderOrderSummary()
+      renderPaymentSummary()
     })
   })
 
@@ -164,6 +168,7 @@ export function renderOrderSummary(params) {
     
     cart.deleteItem(cartItemId)
     renderOrderSummary()
+    renderPaymentSummary()
     })
   })
 }
