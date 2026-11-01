@@ -44,6 +44,19 @@ class Cart {
     this.saveToLocalStorage()
   }
 
+  updateCartQuantity(cartItemId, newQtd){
+    const matchingItem = this.items.find(cartItem=>cartItem.id === cartItemId)
+    matchingItem.qtd = newQtd
+    this.saveToLocalStorage()
+  }
+
+  deleteItem(cartItemId){
+    let newItemsList = this.items.filter((item)=>{
+      return item.id !== cartItemId
+    })
+    this.items = newItemsList
+    this.saveToLocalStorage()
+  }
 
 
   saveToLocalStorage(){
