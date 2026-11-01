@@ -3,6 +3,7 @@ import { products } from "../../data/products.js";
 import { deliveryOptions, renderDaysToDelivery } from "../../data/deliveryOptions.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { centsToDolar } from "../../utis/money.js";
 
 let today = dayjs()
 export function renderOrderSummary(params) {
@@ -26,7 +27,7 @@ export function renderOrderSummary(params) {
             ${matchingItem.name}
           </div>
           <div class="product-price">
-            $${matchingItem.priceCents}
+            $${centsToDolar(matchingItem.priceCents)}
           </div>
           <div class="product-quantity js-product-quantity"
           data-cart-item-id = "${cartItem.id}">
@@ -63,7 +64,7 @@ export function renderOrderSummary(params) {
     deliveryOptions.forEach((option)=>{
       let price = 0;
       if (option.priceCents > 0) {
-        price = `$${option.priceCents}`
+        price = `$${centsToDolar(option.priceCents)}`
       } else {
         price = 'FREE'
       }
